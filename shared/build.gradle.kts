@@ -64,8 +64,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             
-            // Coroutines
+            // Coroutines & SQLDelight Flow
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.sqldelight.coroutines.extensions)
             
             // Ktor
             implementation(libs.ktor.client.core)
