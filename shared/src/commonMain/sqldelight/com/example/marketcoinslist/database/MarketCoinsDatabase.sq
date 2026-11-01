@@ -1,0 +1,44 @@
+CREATE TABLE coinEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    symbol TEXT NOT NULL,
+    name TEXT NOT NULL,
+    image TEXT NOT NULL,
+    currentPrice REAL NOT NULL,
+    priceChange24h REAL,
+    marketCapRank INTEGER
+);
+
+CREATE TABLE favoriteCoinEntity (
+    id TEXT NOT NULL PRIMARY KEY
+);
+
+-- Queries for Coins
+selectAllCoins:
+SELECT *
+FROM coinEntity
+ORDER BY marketCapRank ASC;
+
+insertCoin:
+INSERT OR REPLACE INTO coinEntity(id, symbol, name, image, currentPrice, priceChange24h, marketCapRank)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+deleteAllCoins:
+DELETE FROM coinEntity;
+
+-- Queries for Favorites
+selectAllFavorites:
+SELECT *
+FROM favoriteCoinEntity;
+
+insertFavorite:
+INSERT OR REPLACE INTO favoriteCoinEntity(id)
+VALUES (?);
+
+deleteFavorite:
+DELETE FROM favoriteCoinEntity
+WHERE id = ?;
+
+isFavorite:
+SELECT count(*)
+FROM favoriteCoinEntity
+WHERE id = ?;
