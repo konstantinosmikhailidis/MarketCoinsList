@@ -35,12 +35,12 @@ import com.example.marketcoinslist.feature_coins.presentation.CoinsViewModel
 import org.jetbrains.compose.resources.painterResource
 import marketcoinslist.shared.generated.resources.Res
 import marketcoinslist.shared.generated.resources.compose_multiplatform
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoinsScreen(
-    viewModel: CoinsViewModel = koinInject()
+    viewModel: CoinsViewModel = koinViewModel()
 ) {
     val state by viewModel.observeUiState().collectAsState()
 

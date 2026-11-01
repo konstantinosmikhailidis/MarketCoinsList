@@ -76,6 +76,8 @@ kotlin {
             
             // Koin
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             
             // Serialization & Utils
             implementation(libs.kotlinx.serialization.json)
