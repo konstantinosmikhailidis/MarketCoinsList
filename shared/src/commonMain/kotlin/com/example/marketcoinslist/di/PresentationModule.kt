@@ -1,17 +1,26 @@
 package com.example.marketcoinslist.di
 
-import com.example.marketcoinslist.core.DispatchersProvider
-import com.example.marketcoinslist.core.DispatchersProviderBase
-import com.example.marketcoinslist.feature_coins.presentation.CoinsProcessor
-import com.example.marketcoinslist.feature_coins.presentation.CoinsUpdater
-import com.example.marketcoinslist.feature_coins.presentation.CoinsViewModel
+import com.example.marketcoinslist.core.viewmodel.DispatchersProvider
+import com.example.marketcoinslist.core.viewmodel.DispatchersProviderBase
+import com.example.marketcoinslist.coin_list.presentation.CoinsProcessor
+import com.example.marketcoinslist.coin_list.presentation.CoinsUpdater
+import com.example.marketcoinslist.coin_list.presentation.CoinsViewModel
+import com.example.marketcoinslist.coin_details.presentation.CoinDetailsProcessor
+import com.example.marketcoinslist.coin_details.presentation.CoinDetailsUpdater
+import com.example.marketcoinslist.coin_details.presentation.CoinDetailsViewModel
 import org.koin.dsl.module
 import org.koin.core.module.dsl.factoryOf
 
 val presentationModule = module {
     single<DispatchersProvider> { DispatchersProviderBase() }
     
+    // Coin List
     factoryOf(::CoinsUpdater)
     factoryOf(::CoinsProcessor)
     factoryOf(::CoinsViewModel)
+
+    // Coin Details
+    factoryOf(::CoinDetailsUpdater)
+    factoryOf(::CoinDetailsProcessor)
+    factoryOf(::CoinDetailsViewModel)
 }

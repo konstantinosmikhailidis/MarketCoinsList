@@ -18,6 +18,11 @@ SELECT *
 FROM coinEntity
 ORDER BY marketCapRank ASC;
 
+selectCoinById:
+SELECT *
+FROM coinEntity
+WHERE id = ?;
+
 insertCoin:
 INSERT OR REPLACE INTO coinEntity(id, symbol, name, image, currentPrice, priceChange24h, marketCapRank)
 VALUES (?, ?, ?, ?, ?, ?, ?);

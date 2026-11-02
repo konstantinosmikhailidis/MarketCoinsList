@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">Market Coins List</string>
+    <string name="coin_list_screen_name">Coin List</string>
+    <string name="coin_details_screen_name">Coin Details</string>
+    <string name="watch_list_screen_name">Watch List</string>
+</resources>

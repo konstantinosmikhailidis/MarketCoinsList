@@ -1,0 +1,3 @@
+package com.example.marketcoinslist.watch_list.presentation
+
+class WatchListViewModel
