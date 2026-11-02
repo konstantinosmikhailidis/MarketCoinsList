@@ -8,6 +8,9 @@ import com.example.marketcoinslist.coin_list.presentation.CoinsViewModel
 import com.example.marketcoinslist.coin_details.presentation.CoinDetailsProcessor
 import com.example.marketcoinslist.coin_details.presentation.CoinDetailsUpdater
 import com.example.marketcoinslist.coin_details.presentation.CoinDetailsViewModel
+import com.example.marketcoinslist.watch_list.presentation.WatchListProcessor
+import com.example.marketcoinslist.watch_list.presentation.WatchListUpdater
+import com.example.marketcoinslist.watch_list.presentation.WatchListViewModel
 import org.koin.dsl.module
 import org.koin.core.module.dsl.factoryOf
 
@@ -23,4 +26,9 @@ val presentationModule = module {
     factoryOf(::CoinDetailsUpdater)
     factoryOf(::CoinDetailsProcessor)
     factoryOf(::CoinDetailsViewModel)
+
+    // Watch List
+    factoryOf(::WatchListUpdater)
+    factoryOf(::WatchListProcessor)
+    factoryOf(::WatchListViewModel)
 }
