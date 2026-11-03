@@ -1,6 +1,7 @@
 package com.example.marketcoinslist.coin_list.presentation.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,11 +13,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,9 +28,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.marketcoinslist.coin_list.domain.model.Coin
 import com.example.marketcoinslist.coin_list.presentation.CoinsAction
 import com.example.marketcoinslist.coin_list.presentation.CoinsViewModel
@@ -39,7 +44,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoinListScreen(
-    viewModel: CoinsViewModel = koinViewModel()
+    viewModel: CoinsViewModel = koinViewModel(),
+    onNavigateToDetails: (String) -> Unit = {}
 ) {
     val state by viewModel.observeUiState().collectAsState()
 
@@ -64,6 +70,7 @@ fun CoinListScreen(
                     items(state.coins) { coin ->
                         CoinItem(
                             coin = coin,
+                            onClick = { onNavigateToDetails(coin.id) },
                             onFavoriteClick = { viewModel.handle(CoinsAction.ToggleFavorite(coin.id)) }
                         )
                     }
@@ -76,35 +83,62 @@ fun CoinListScreen(
 @Composable
 fun CoinItem(
     coin: Coin,
+    onClick: () -> Unit,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { /* Navigate to Details */ }
-            .padding(16.dp),
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Image placeholder, normally you'd use coil3 here for actual KMP image loading
-        Icon(
-            painter = painterResource(Res.drawable.compose_multiplatform),
-            contentDescription = null,
-            modifier = Modifier.size(40.dp)
+        AsyncImage(
+            model = coin.imageUrl,
+            contentDescription = coin.name,
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
         )
+        
         Spacer(modifier = Modifier.width(16.dp))
+        
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = coin.name, fontWeight = FontWeight.Bold)
-            Text(text = coin.symbol, color = Color.Gray)
+            Text(
+                text = coin.name,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = coin.symbol.uppercase(),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
+        
         Column(horizontalAlignment = Alignment.End) {
-            Text(text = "$${coin.currentPrice}")
+            Text(
+                text = "$${coin.currentPrice}",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
             val change = coin.priceChangePercentage24h ?: 0.0
-            val color = if (change >= 0) Color.Green else Color.Red
-            Text(text = "${if (change >= 0) "+" else ""}${change}%", color = color)
+            val color = if (change >= 0) Color(0xFF4CAF50) else Color(0xFFF44336)
+            val sign = if (change >= 0) "+" else ""
+            Text(
+                text = "$sign${change}%",
+                style = MaterialTheme.typography.bodyMedium,
+                color = color
+            )
         }
+        
         IconButton(onClick = onFavoriteClick) {
-            Text(if (coin.isFavorite) "★" else "☆", color = if (coin.isFavorite) Color.Yellow else Color.Gray)
+            Text(
+                text = if (coin.isFavorite) "★" else "☆", 
+                color = if (coin.isFavorite) Color(0xFFFFC107) else MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.headlineSmall
+            )
         }
     }
 }

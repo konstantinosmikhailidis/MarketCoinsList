@@ -25,6 +25,7 @@ kotlinxSerialization = "1.8.0"
 kotlinxDatetime = "0.6.2"
 nativeCoroutines = "1.0.0-ALPHA-38"
 cmpNavigation3 = "1.2.0" # For Compose Multiplatform  3333$KMPmobile
+coil3 = "3.0.4"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -75,6 +76,10 @@ jetbrains-lifecycle-viewmodel-nav3 = { module = "org.jetbrains.androidx.lifecycl
 jetbrains-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle"}
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+
+# --- Coil 3 ---
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
