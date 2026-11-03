@@ -26,7 +26,7 @@ data object CoinList : Screen {
 }
 
 @Serializable
-data object CoinDetails : Screen {
+data class CoinDetails(val id: String) : Screen {
     override val titleRes get() = Res.string.coin_details_screen_name
 }
 

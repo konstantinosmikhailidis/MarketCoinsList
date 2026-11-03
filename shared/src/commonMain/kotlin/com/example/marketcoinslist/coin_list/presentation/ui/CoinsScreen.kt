@@ -41,7 +41,6 @@ import marketcoinslist.shared.generated.resources.Res
 import marketcoinslist.shared.generated.resources.compose_multiplatform
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoinListScreen(
     viewModel: CoinsViewModel = koinViewModel(),

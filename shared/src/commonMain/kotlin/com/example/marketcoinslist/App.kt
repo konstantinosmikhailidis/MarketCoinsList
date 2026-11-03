@@ -1,48 +1,56 @@
 package com.example.marketcoinslist
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.resources.painterResource
-
-import marketcoinslist.shared.generated.resources.Res
-import marketcoinslist.shared.generated.resources.compose_multiplatform
+import com.example.marketcoinslist.di.initKoin
+import com.example.marketcoinslist.navigation.rememberCoinNavigator
+import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.runtime.NavEntry
+import com.example.marketcoinslist.navigation.CoinList
+import com.example.marketcoinslist.navigation.CoinDetails
+import com.example.marketcoinslist.navigation.WatchList
+import com.example.marketcoinslist.coin_list.presentation.ui.CoinListScreen
+import com.example.marketcoinslist.coin_details.presentation.ui.CoinDetailsScreen
+import com.example.marketcoinslist.watch_list.presentation.ui.WatchListScreen
+import org.koin.compose.KoinContext
 
 @Composable
-@Preview
 fun App() {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
+        KoinContext {
+            val navigator = rememberCoinNavigator()
+            
+            Box(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .fillMaxSize()
+            ) {
+                NavDisplay(
+                    backStack = navigator,
+                    onBack = { navigator.removeLastOrNull() },
+                    entryProvider = { key ->
+                        when (key) {
+                            is CoinList -> NavEntry(key) {
+                                CoinListScreen(
+                                    onNavigateToDetails = { id ->
+                                        navigator.add(CoinDetails(id))
+                                    }
+                                )
+                            }
+                            is CoinDetails -> NavEntry(key) {
+                                CoinDetailsScreen()
+                            }
+                            is WatchList -> NavEntry(key) {
+                                WatchListScreen()
+                            }
+                            else -> error("Unknown route: $key")
+                        }
+                    }
+                )
             }
         }
     }
