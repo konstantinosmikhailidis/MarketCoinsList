@@ -25,7 +25,7 @@ class CoinRepositoryImpl(
         val favoritesFlow = db.marketCoinsDatabaseQueries.selectAllFavorites().asFlow().mapToList(Dispatchers.IO)
 
         return combine(coinsFlow, favoritesFlow) { coins, favorites ->
-            val favoriteIds = favorites.map { it.id }.toSet()
+            val favoriteIds = favorites.toSet()
             coins.map { it.toDomain(isFavorite = favoriteIds.contains(it.id)) }
         }
     }
