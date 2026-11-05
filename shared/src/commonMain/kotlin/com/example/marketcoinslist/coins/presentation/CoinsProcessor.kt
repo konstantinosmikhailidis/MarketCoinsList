@@ -1,10 +1,11 @@
-package com.example.marketcoinslist.coin_list.presentation
+package com.example.marketcoinslist.coins.presentation
 
 import com.example.marketcoinslist.core.viewmodel.Processor
-import com.example.marketcoinslist.coin_list.domain.repository.CoinRepository
+import com.example.marketcoinslist.coins.domain.repository.CoinRepository
+import com.example.marketcoinslist.core.notification.NotificationInfo
 
 class CoinsProcessor(
-    private val repository: CoinRepository
+    private val repository: CoinRepository,
 ) : Processor<CoinsAction, CoinsSideEffect> {
 
     override suspend fun process(effect: CoinsSideEffect): CoinsAction {
@@ -13,6 +14,7 @@ class CoinsProcessor(
                 repository.refreshCoins()
                 CoinsAction.CoinsRefreshed
             }
+
             is CoinsSideEffect.ToggleFavorite -> safeAction {
                 repository.toggleFavorite(effect.id)
                 CoinsAction.CoinsRefreshed // We just return a success action, flow updates UI
@@ -21,6 +23,10 @@ class CoinsProcessor(
     }
 
     override fun onError(message: String): CoinsAction {
-        return CoinsAction.RefreshFailed(message)
+        return CoinsAction.RefreshFailed(
+            NotificationInfo(
+                message = message
+            )
+        )
     }
 }

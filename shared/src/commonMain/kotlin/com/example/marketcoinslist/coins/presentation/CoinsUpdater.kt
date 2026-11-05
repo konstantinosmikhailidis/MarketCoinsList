@@ -1,5 +1,6 @@
-package com.example.marketcoinslist.coin_list.presentation
+package com.example.marketcoinslist.coins.presentation
 
+import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.viewmodel.StateHolder
 import com.example.marketcoinslist.core.viewmodel.StateUpdater
 
@@ -11,21 +12,30 @@ class CoinsUpdater : StateUpdater<CoinsState, CoinsAction, CoinsSideEffect, Coin
     ): StateHolder<CoinsState, CoinsSideEffect, CoinsEvent> {
         return when (action) {
             is CoinsAction.CoinsUpdated -> {
-                StateHolder(currentState.copy(coins = action.coins, error = null))
+                StateHolder(currentState.copy(coins = action.coins))
             }
             is CoinsAction.RefreshCoins -> {
                 StateHolder(
-                    state = currentState.copy(isLoading = true, error = null),
-                    effects = setOf(CoinsSideEffect.LoadCoins)
+                    state = currentState,
+                    effects = setOf(CoinsSideEffect.LoadCoins),
+                    events = setOf(CoinsEvent.ShowLoadingAnimation(LoadingInfo()))
                 )
             }
             is CoinsAction.CoinsRefreshed -> {
-                StateHolder(currentState.copy(isLoading = false))
+                StateHolder(
+                    state = currentState,
+                    events = setOf(
+                        CoinsEvent.ShowLoadingAnimation(null)
+                    )
+                )
             }
             is CoinsAction.RefreshFailed -> {
                 StateHolder(
-                    state = currentState.copy(isLoading = false, error = action.error),
-                    events = setOf(CoinsEvent.ShowError(action.error))
+                    state = currentState,
+                    events = setOf(
+                        CoinsEvent.ShowNotification(action.notificationInfo),
+                        CoinsEvent.ShowLoadingAnimation(null)
+                    )
                 )
             }
             is CoinsAction.ToggleFavorite -> {

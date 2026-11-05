@@ -1,4 +1,4 @@
-package com.example.marketcoinslist.coin_list.data.remote.dto
+package com.example.marketcoinslist.coins.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

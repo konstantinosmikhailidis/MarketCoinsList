@@ -5,9 +5,9 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.example.marketcoinslist.coin_details.domain.model.MarketChart
 import com.example.marketcoinslist.coin_details.domain.model.PricePoint
 import com.example.marketcoinslist.coin_details.domain.repository.CoinDetailsRepository
-import com.example.marketcoinslist.coin_list.data.mapper.toDomain
-import com.example.marketcoinslist.coin_list.data.remote.CoinGeckoApi
-import com.example.marketcoinslist.coin_list.domain.model.Coin
+import com.example.marketcoinslist.coins.data.mapper.toDomain
+import com.example.marketcoinslist.coins.data.remote.CoinGeckoApi
+import com.example.marketcoinslist.coins.domain.model.Coin
 import com.example.marketcoinslist.database.MarketCoinsDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -29,20 +29,18 @@ class CoinDetailsRepositoryImpl(
         }
     }
 
-    override suspend fun getMarketChart(coinId: String, days: String): Result<MarketChart> {
-        return try {
+    override suspend fun getMarketChart(coinId: String, days: String): MarketChart {
             val dto = api.getMarketChart(coinId = coinId, days = days)
-            val prices = dto.prices.map { point ->
-                PricePoint(
-                    timestamp = point[0].toLong(),
-                    price = point[1]
-                )
+            println("MarketChartDto fetched for $coinId with ${dto.prices.size} prices")
+            val prices = dto.prices.mapNotNull { point ->
+                if (point.size >= 2) {
+                    PricePoint(
+                        timestamp = point[0].toLong(),
+                        price = point[1]
+                    )
+                } else null
             }
-            Result.success(MarketChart(prices = prices))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Result.failure(e)
-        }
+            return MarketChart(prices = prices)
     }
 
     override suspend fun toggleFavorite(coinId: String) {

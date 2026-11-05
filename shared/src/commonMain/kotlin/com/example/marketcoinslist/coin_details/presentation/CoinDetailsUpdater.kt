@@ -1,36 +1,83 @@
 package com.example.marketcoinslist.coin_details.presentation
 
+import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.viewmodel.StateHolder
 import com.example.marketcoinslist.core.viewmodel.StateUpdater
 
-class CoinDetailsUpdater : StateUpdater<CoinDetailsState, CoinDetailsAction, CoinDetailsSideEffect, CoinDetailsEvent> {
+class CoinDetailsUpdater :
+    StateUpdater<CoinDetailsState, CoinDetailsAction, CoinDetailsSideEffect, CoinDetailsEvent> {
 
     override fun update(
         action: CoinDetailsAction,
-        currentState: CoinDetailsState
+        currentState: CoinDetailsState,
     ): StateHolder<CoinDetailsState, CoinDetailsSideEffect, CoinDetailsEvent> {
         return when (action) {
             is CoinDetailsAction.CoinUpdated -> {
-                StateHolder(currentState.copy(coin = action.coin, error = null))
+                StateHolder(currentState.copy(coin = action.coin))
             }
+
             is CoinDetailsAction.MarketChartUpdated -> {
-                StateHolder(currentState.copy(marketChart = action.marketChart, isLoading = false, error = null))
+                StateHolder(
+                    state = currentState.copy(
+                        marketChart = action.marketChart,
+                    ),
+                    events = setOf(
+                        CoinDetailsEvent.ShowLoadingAnimation(null)
+                    )
+                )
             }
+
             is CoinDetailsAction.LoadDetails -> {
                 StateHolder(
-                    state = currentState.copy(isLoading = true, error = null),
-                    effects = setOf(CoinDetailsSideEffect.FetchMarketChart(action.coinId))
+                    state = currentState,
+                    effects = setOf(
+                        CoinDetailsSideEffect.FetchMarketChart(
+                            action.coinId,
+                            currentState.selectedDays
+                        )
+                    ),
+                    events = setOf(
+                        CoinDetailsEvent.ShowLoadingAnimation(LoadingInfo())
+                    )
                 )
             }
-            is CoinDetailsAction.DetailsLoaded -> {
-                StateHolder(currentState.copy(isLoading = false))
-            }
-            is CoinDetailsAction.LoadFailed -> {
+
+            is CoinDetailsAction.SelectTimeframe -> {
                 StateHolder(
-                    state = currentState.copy(isLoading = false, error = action.error),
-                    events = setOf(CoinDetailsEvent.ShowError(action.error))
+                    state = currentState.copy(
+                        selectedDays = action.days,
+                    ),
+                    effects = setOf(
+                        CoinDetailsSideEffect.FetchMarketChart(
+                            action.coinId,
+                            action.days
+                        )
+                    ),
+                    events = setOf(
+                        CoinDetailsEvent.ShowLoadingAnimation(LoadingInfo())
+                    )
                 )
             }
+
+            is CoinDetailsAction.DetailsLoaded -> {
+                StateHolder(
+                    state = currentState,
+                    events = setOf(
+                        CoinDetailsEvent.ShowLoadingAnimation(null)
+                    )
+                )
+            }
+
+            is CoinDetailsAction.LoadNotification -> {
+                StateHolder(
+                    state = currentState,
+                    events = setOf(
+                        CoinDetailsEvent.ShowLoadingAnimation(null),
+                        CoinDetailsEvent.ShowNotification(action.notificationInfo)
+                    )
+                )
+            }
+
             is CoinDetailsAction.ToggleFavorite -> {
                 StateHolder(
                     state = currentState,

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="app_name">Market Coins List</string>
-    <string name="coin_list_screen_name">Coin List</string>
-    <string name="coin_details_screen_name">Coin Details</string>
-    <string name="watch_list_screen_name">Watch List</string>
+    <string name="crash_text">Unexpected error</string>
+    <string name="got_to_main_window">Go to main window</string>
+    <string name="market_coins_title">Market Coins</string>
+    <string name="coin_details_title">Coin Details</string>
+    <string name="no_chart_data_available">No chart data available</string>
+    <string name="retry">Retry</string>
+    <string name="char_selected">★</string>
+    <string name="char_non_selected">☆</string>
+    <string name="char_plus">+</string>
+    <string name="char_back">←</string>
 </resources>

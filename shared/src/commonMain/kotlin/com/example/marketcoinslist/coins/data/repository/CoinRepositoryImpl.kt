@@ -1,13 +1,13 @@
-package com.example.marketcoinslist.coin_list.data.repository
+package com.example.marketcoinslist.coins.data.repository
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.example.marketcoinslist.database.MarketCoinsDatabase
-import com.example.marketcoinslist.coin_list.data.mapper.toDomain
-import com.example.marketcoinslist.coin_list.data.mapper.toEntity
-import com.example.marketcoinslist.coin_list.data.remote.CoinGeckoApi
-import com.example.marketcoinslist.coin_list.domain.model.Coin
-import com.example.marketcoinslist.coin_list.domain.repository.CoinRepository
+import com.example.marketcoinslist.coins.data.mapper.toDomain
+import com.example.marketcoinslist.coins.data.mapper.toEntity
+import com.example.marketcoinslist.coins.data.remote.CoinGeckoApi
+import com.example.marketcoinslist.coins.domain.model.Coin
+import com.example.marketcoinslist.coins.domain.repository.CoinRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow

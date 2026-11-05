@@ -1,4 +1,4 @@
-package com.example.marketcoinslist.coin_list.domain.model
+package com.example.marketcoinslist.coins.domain.model
 
 data class Coin(
     val id: String,

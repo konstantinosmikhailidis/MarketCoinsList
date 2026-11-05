@@ -1,8 +1,8 @@
-package com.example.marketcoinslist.coin_list.data.mapper
+package com.example.marketcoinslist.coins.data.mapper
 
 import com.example.marketcoinslist.database.CoinEntity
-import com.example.marketcoinslist.coin_list.data.remote.dto.CoinDto
-import com.example.marketcoinslist.coin_list.domain.model.Coin
+import com.example.marketcoinslist.coins.data.remote.dto.CoinDto
+import com.example.marketcoinslist.coins.domain.model.Coin
 
 fun CoinDto.toEntity(): CoinEntity {
     return CoinEntity(

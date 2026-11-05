@@ -2,9 +2,9 @@ package com.example.marketcoinslist.di
 
 import com.example.marketcoinslist.core.viewmodel.DispatchersProvider
 import com.example.marketcoinslist.core.viewmodel.DispatchersProviderBase
-import com.example.marketcoinslist.coin_list.presentation.CoinsProcessor
-import com.example.marketcoinslist.coin_list.presentation.CoinsUpdater
-import com.example.marketcoinslist.coin_list.presentation.CoinsViewModel
+import com.example.marketcoinslist.coins.presentation.CoinsProcessor
+import com.example.marketcoinslist.coins.presentation.CoinsUpdater
+import com.example.marketcoinslist.coins.presentation.CoinsViewModel
 import com.example.marketcoinslist.coin_details.presentation.CoinDetailsProcessor
 import com.example.marketcoinslist.coin_details.presentation.CoinDetailsUpdater
 import com.example.marketcoinslist.coin_details.presentation.CoinDetailsViewModel

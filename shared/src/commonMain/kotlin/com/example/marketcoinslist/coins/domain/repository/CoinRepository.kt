@@ -1,6 +1,6 @@
-package com.example.marketcoinslist.coin_list.domain.repository
+package com.example.marketcoinslist.coins.domain.repository
 
-import com.example.marketcoinslist.coin_list.domain.model.Coin
+import com.example.marketcoinslist.coins.domain.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {

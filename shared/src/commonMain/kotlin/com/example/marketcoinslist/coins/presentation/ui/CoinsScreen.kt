@@ -1,7 +1,6 @@
-package com.example.marketcoinslist.coin_list.presentation.ui
+package com.example.marketcoinslist.coins.presentation.ui
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,17 +14,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,34 +33,55 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.marketcoinslist.coin_list.domain.model.Coin
-import com.example.marketcoinslist.coin_list.presentation.CoinsAction
-import com.example.marketcoinslist.coin_list.presentation.CoinsViewModel
-import org.jetbrains.compose.resources.painterResource
+import com.example.marketcoinslist.coins.domain.model.Coin
+import com.example.marketcoinslist.coins.presentation.CoinsAction
+import com.example.marketcoinslist.coins.presentation.CoinsEvent
+import com.example.marketcoinslist.coins.presentation.CoinsViewModel
+import com.example.marketcoinslist.core.notification.LoadingInfo
+import com.example.marketcoinslist.core.notification.NotificationInfo
+import com.example.marketcoinslist.utils.EMPTY_VALUE
 import marketcoinslist.shared.generated.resources.Res
-import marketcoinslist.shared.generated.resources.compose_multiplatform
+import marketcoinslist.shared.generated.resources.char_non_selected
+import marketcoinslist.shared.generated.resources.char_plus
+import marketcoinslist.shared.generated.resources.char_selected
+import marketcoinslist.shared.generated.resources.market_coins_title
+import marketcoinslist.shared.generated.resources.no_chart_data_available
+import marketcoinslist.shared.generated.resources.retry
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CoinListScreen(
     viewModel: CoinsViewModel = koinViewModel(),
-    onNavigateToDetails: (String) -> Unit = {}
+    onNavigateToDetails: (String) -> Unit = {},
+    onShowNotification: (NotificationInfo) -> Unit,
+    onShowLoadingAnimation: (LoadingInfo?) -> Unit,
 ) {
     val state by viewModel.observeUiState().collectAsState()
+    var isLoading by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        viewModel.observeEvent().collect { event ->
+            when (event) {
+                is CoinsEvent.ShowLoadingAnimation -> {
+                    onShowLoadingAnimation(event.loadingInfo)
+                }
+
+                is CoinsEvent.ShowNotification -> onShowNotification(event.notificationInfo)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Market Coins") })
+            TopAppBar(title = { stringResource(Res.string.market_coins_title) })
         }
     ) { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize().padding(paddingValues)
         ) {
-            if (state.coins.isEmpty() && state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            } else if (state.error != null && state.coins.isEmpty()) {
+            if (!isLoading && state.coins.isEmpty()) {
                 ErrorView(
-                    error = state.error!!,
+                    error = stringResource(Res.string.no_chart_data_available),
                     onRetry = { viewModel.handle(CoinsAction.RefreshCoins) },
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -124,7 +145,7 @@ fun CoinItem(
             )
             val change = coin.priceChangePercentage24h ?: 0.0
             val color = if (change >= 0) Color(0xFF4CAF50) else Color(0xFFF44336)
-            val sign = if (change >= 0) "+" else ""
+            val sign = if (change >= 0) stringResource(Res.string.char_plus) else EMPTY_VALUE
             Text(
                 text = "$sign${change}%",
                 style = MaterialTheme.typography.bodyMedium,
@@ -134,8 +155,14 @@ fun CoinItem(
         
         IconButton(onClick = onFavoriteClick) {
             Text(
-                text = if (coin.isFavorite) "★" else "☆", 
-                color = if (coin.isFavorite) Color(0xFFFFC107) else MaterialTheme.colorScheme.onSurfaceVariant,
+                text = if (coin.isFavorite)
+                    stringResource(Res.string.char_selected)
+                else
+                    stringResource(Res.string.char_non_selected),
+                color = if (coin.isFavorite)
+                    Color(0xFFFFC107)
+                else
+                    MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.headlineSmall
             )
         }
@@ -147,7 +174,7 @@ fun ErrorView(error: String, onRetry: () -> Unit, modifier: Modifier = Modifier)
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
         Text(text = error, color = Color.Red, modifier = Modifier.padding(16.dp))
         Button(onClick = onRetry) {
-            Text("Retry")
+            Text(stringResource(Res.string.retry))
         }
     }
 }

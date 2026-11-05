@@ -14,13 +14,13 @@ import kotlinx.serialization.json.Json
  * @property isCloseTimer определяет закрывать-ли оповещение через время
  */
 @Serializable
-data class ErrorInfo(
+data class NotificationInfo(
     val message: String,
     var isError: Boolean? = null,
     val isCloseTimer: Boolean = false
 ) {
     companion object {
-        val Saver = Saver<ErrorInfo?, String>(
+        val Saver = Saver<NotificationInfo?, String>(
             save = { it?.let { Json.encodeToString(it) } },
             restore = {
                 if (it == "null" || it.isBlank()) null

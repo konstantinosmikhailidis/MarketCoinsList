@@ -1,6 +1,6 @@
 package com.example.marketcoinslist.watch_list.domain.repository
 
-import com.example.marketcoinslist.coin_list.domain.model.Coin
+import com.example.marketcoinslist.coins.domain.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface WatchListRepository {

@@ -1,10 +1,10 @@
-package com.example.marketcoinslist.coin_list.presentation
+package com.example.marketcoinslist.coins.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.example.marketcoinslist.core.viewmodel.BaseViewModel
 import com.example.marketcoinslist.core.viewmodel.DispatchersProvider
 import com.example.marketcoinslist.core.viewmodel.Mapper
-import com.example.marketcoinslist.coin_list.domain.repository.CoinRepository
+import com.example.marketcoinslist.coins.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

@@ -31,7 +31,7 @@ fun LocalDate.Companion.now() : LocalDate {
     val localDateTimeNow = LocalDateTime.now()
     return LocalDate(localDateTimeNow.year,
         localDateTimeNow.month.number,
-        localDateTimeNow.day
+        localDateTimeNow.dayOfMonth
     )
 }
 

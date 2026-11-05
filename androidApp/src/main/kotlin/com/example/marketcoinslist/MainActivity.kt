@@ -12,8 +12,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        setContent {
-            App()
+        Thread.setDefaultUncaughtExceptionHandler { _, _ ->
+            showErrorWindow(this) {
+                openContent(this)
+            }
         }
+
+        openContent(this)
     }
 }

@@ -14,13 +14,13 @@ fun rememberCoinNavigator(): NavBackStack<NavKey> {
         configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {
                 polymorphic(NavKey::class) {
-                    subclass(CoinList::class, CoinList.serializer())
+                    subclass(Coins::class, Coins.serializer())
                     subclass(CoinDetails::class, CoinDetails.serializer())
                     subclass(WatchList::class, WatchList.serializer())
                 }
             }
         },
-        CoinList
+        Coins
     )
 
     return backStack

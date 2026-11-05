@@ -2,8 +2,8 @@ package com.example.marketcoinslist.watch_list.data.repository
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.example.marketcoinslist.coin_list.data.mapper.toDomain
-import com.example.marketcoinslist.coin_list.domain.model.Coin
+import com.example.marketcoinslist.coins.data.mapper.toDomain
+import com.example.marketcoinslist.coins.domain.model.Coin
 import com.example.marketcoinslist.database.MarketCoinsDatabase
 import com.example.marketcoinslist.watch_list.domain.repository.WatchListRepository
 import kotlinx.coroutines.Dispatchers

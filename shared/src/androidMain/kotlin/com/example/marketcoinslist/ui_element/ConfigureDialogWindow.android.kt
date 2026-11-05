@@ -8,13 +8,18 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogWindowProvider
 
 @Composable
-actual fun ConfigureDialogWindow() {
+actual fun ConfigureDialogWindow(position: Position) {
     val view = LocalView.current
     SideEffect {
         (view.parent as? DialogWindowProvider)?.window?.let { window ->
             window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            window.setGravity(Gravity.BOTTOM)
+            window.setGravity(
+                when (position) {
+                    Position.CENTER -> Gravity.CENTER
+                    Position.BOTTOM -> Gravity.BOTTOM
+                }
+            )
             window.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT
