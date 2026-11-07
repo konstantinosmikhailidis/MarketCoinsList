@@ -18,6 +18,11 @@ SELECT *
 FROM coinEntity
 ORDER BY marketCapRank ASC;
 
+selectCoinById:
+SELECT *
+FROM coinEntity
+WHERE id = ?;
+
 insertCoin:
 INSERT OR REPLACE INTO coinEntity(id, symbol, name, image, currentPrice, priceChange24h, marketCapRank)
 VALUES (?, ?, ?, ?, ?, ?, ?);
@@ -42,3 +47,9 @@ isFavorite:
 SELECT count(*)
 FROM favoriteCoinEntity
 WHERE id = ?;
+
+selectFavoriteCoinsInfo:
+SELECT coinEntity.*
+FROM coinEntity
+INNER JOIN favoriteCoinEntity ON coinEntity.id = favoriteCoinEntity.id
+ORDER BY coinEntity.marketCapRank ASC;

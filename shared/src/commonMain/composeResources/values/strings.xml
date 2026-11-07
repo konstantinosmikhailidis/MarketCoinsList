@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">Market Coins List</string>
+    <string name="crash_text">Unexpected error</string>
+    <string name="got_to_main_window">Go to main window</string>
+    <string name="market_coins_title">Market Coins</string>
+    <string name="coin_details_title">Coin Details</string>
+    <string name="watch_list_title">Watch List</string>
+    <string name="no_chart_data_available">No chart data available</string>
+    <string name="retry">Retry</string>
+    <string name="price_chart">Price Chart</string>
+    <string name="market_stats">Market Stats</string>
+    <string name="market_cap_rank">Market Cap Rank</string>
+    <string name="current_price">Current Price</string>
+    <string name="price_change_24h">24h Price Change</string>
+    <string name="watchlist_status">Watchlist Status</string>
+    <string name="in_watchlist">In Watchlist</string>
+    <string name="not_in_watchlist">Not In Watchlist</string>
+    <string name="twenty_four_hours">24H</string>
+    <string name="seven_days">7D</string>
+    <string name="thirty_days">30D</string>
+    <string name="one_year">1Y</string>
+    <string name="watch_list_empty_state_title">Your Watch List is empty</string>
+    <string name="watch_list_empty_state_message">Tap the star icon on any coin to add it here</string>
+    <string name="failed_to_load_coins">Failed to load coins</string>
+    <string name="failed_to_load_chart">Failed to load chart</string>
+</resources>
