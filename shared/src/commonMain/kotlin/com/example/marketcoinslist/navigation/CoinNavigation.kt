@@ -21,7 +21,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.marketcoinslist.coin_details.presentation.ui.CoinDetailsScreen
-import com.example.marketcoinslist.coins.presentation.ui.CoinListScreen
+import com.example.marketcoinslist.coins.presentation.ui.CoinsScreen
 import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
 import com.example.marketcoinslist.ui_element.CircleLoader
@@ -83,7 +83,7 @@ fun CoinNavigation() {
             ),
             entryProvider = entryProvider {
                 entry<Coins> {
-                    CoinListScreen(
+                    CoinsScreen(
                         onNavigateToDetails = { id ->
                             coinRememberNavigator.add(CoinDetails(id))
                         },

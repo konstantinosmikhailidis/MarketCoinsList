@@ -40,10 +40,8 @@ import com.example.marketcoinslist.coins.presentation.CoinsViewModel
 import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
 import com.example.marketcoinslist.utils.EMPTY_VALUE
+import io.ktor.websocket.Frame
 import marketcoinslist.shared.generated.resources.Res
-import marketcoinslist.shared.generated.resources.char_non_selected
-import marketcoinslist.shared.generated.resources.char_plus
-import marketcoinslist.shared.generated.resources.char_selected
 import marketcoinslist.shared.generated.resources.market_coins_title
 import marketcoinslist.shared.generated.resources.no_chart_data_available
 import marketcoinslist.shared.generated.resources.retry
@@ -51,14 +49,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CoinListScreen(
+fun CoinsScreen(
     viewModel: CoinsViewModel = koinViewModel(),
     onNavigateToDetails: (String) -> Unit = {},
     onShowNotification: (NotificationInfo) -> Unit,
     onShowLoadingAnimation: (LoadingInfo?) -> Unit,
 ) {
     val state by viewModel.observeUiState().collectAsState()
-    var isLoading by rememberSaveable { mutableStateOf(false) }
+    var isLoading by rememberSaveable { mutableStateOf(true) }
     LaunchedEffect(Unit) {
         viewModel.observeEvent().collect { event ->
             when (event) {
@@ -73,7 +71,7 @@ fun CoinListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { stringResource(Res.string.market_coins_title) })
+            TopAppBar(title = { Text( text = stringResource(Res.string.market_coins_title)) })
         }
     ) { paddingValues ->
         Box(
@@ -145,7 +143,7 @@ fun CoinItem(
             )
             val change = coin.priceChangePercentage24h ?: 0.0
             val color = if (change >= 0) Color(0xFF4CAF50) else Color(0xFFF44336)
-            val sign = if (change >= 0) stringResource(Res.string.char_plus) else EMPTY_VALUE
+            val sign = if (change >= 0) "+" else EMPTY_VALUE
             Text(
                 text = "$sign${change}%",
                 style = MaterialTheme.typography.bodyMedium,
@@ -156,9 +154,9 @@ fun CoinItem(
         IconButton(onClick = onFavoriteClick) {
             Text(
                 text = if (coin.isFavorite)
-                    stringResource(Res.string.char_selected)
+                    "★"
                 else
-                    stringResource(Res.string.char_non_selected),
+                    "☆",
                 color = if (coin.isFavorite)
                     Color(0xFFFFC107)
                 else

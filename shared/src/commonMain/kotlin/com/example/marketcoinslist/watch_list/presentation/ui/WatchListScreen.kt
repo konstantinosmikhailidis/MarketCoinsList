@@ -14,15 +14,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.marketcoinslist.coins.presentation.ui.CoinItem
 import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
+import com.example.marketcoinslist.utils.isNotNull
 import com.example.marketcoinslist.watch_list.presentation.WatchListAction
 import com.example.marketcoinslist.watch_list.presentation.WatchListEvent
 import com.example.marketcoinslist.watch_list.presentation.WatchListViewModel
+import marketcoinslist.shared.generated.resources.Res
+import marketcoinslist.shared.generated.resources.watch_list_empty_state_message
+import marketcoinslist.shared.generated.resources.watch_list_title
+import marketcoinslist.shared.generated.resources.watch_list_empty_state_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -33,11 +42,13 @@ fun WatchListScreen(
     onShowLoadingAnimation: (LoadingInfo?) -> Unit,
 ) {
     val state by viewModel.observeUiState().collectAsState()
+    var isLoading by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         viewModel.observeEvent().collect { event ->
             when (event) {
                 is WatchListEvent.ShowLoadingAnimation -> {
+                    isLoading = event.loadingInfo.isNotNull()
                     onShowLoadingAnimation(event.loadingInfo)
                 }
 
@@ -48,7 +59,9 @@ fun WatchListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Watch List") })
+            TopAppBar(title = { Text(
+                text = stringResource(Res.string.watch_list_title)
+            ) })
         }
     ) { paddingValues ->
         Box(
@@ -56,7 +69,7 @@ fun WatchListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (state.coins.isEmpty()) {
+            if (state.coins.isEmpty() && !isLoading) {
                 Column(
                     modifier = Modifier.align(Alignment.Center),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -67,12 +80,12 @@ fun WatchListScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = "Your Watch List is empty",
+                        text = stringResource(Res.string.watch_list_empty_state_title),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(top = 8.dp)
                     )
                     Text(
-                        text = "Tap the star icon on any coin to add it here",
+                        text = stringResource(Res.string.watch_list_empty_state_message),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 4.dp)

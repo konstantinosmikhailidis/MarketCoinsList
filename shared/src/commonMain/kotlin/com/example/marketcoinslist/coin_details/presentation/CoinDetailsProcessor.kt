@@ -3,6 +3,9 @@ package com.example.marketcoinslist.coin_details.presentation
 import com.example.marketcoinslist.coin_details.domain.repository.CoinDetailsRepository
 import com.example.marketcoinslist.core.notification.NotificationInfo
 import com.example.marketcoinslist.core.viewmodel.Processor
+import marketcoinslist.shared.generated.resources.Res
+import marketcoinslist.shared.generated.resources.failed_to_load_chart
+import org.jetbrains.compose.resources.getString
 
 class CoinDetailsProcessor(
     private val repository: CoinDetailsRepository
@@ -22,7 +25,9 @@ class CoinDetailsProcessor(
     )
 
 
-    private suspend fun fetchMarketChart(effect: CoinDetailsSideEffect.FetchMarketChart)  = safeAction(defaultErrorMessage = "Failed to load chart") {
+    private suspend fun fetchMarketChart(effect: CoinDetailsSideEffect.FetchMarketChart)  = safeAction(
+        defaultErrorMessage = getString(Res.string.failed_to_load_chart)
+    ) {
         val marketChart = repository.getMarketChart(effect.coinId, effect.days)
         CoinDetailsAction.MarketChartUpdated(marketChart)
     }

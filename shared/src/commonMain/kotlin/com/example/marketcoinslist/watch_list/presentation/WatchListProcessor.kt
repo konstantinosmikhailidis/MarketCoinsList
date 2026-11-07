@@ -11,7 +11,7 @@ class WatchListProcessor(
         return when (effect) {
             is WatchListSideEffect.RemoveFavorite -> safeAction {
                 repository.removeFromWatchList(effect.id)
-                WatchListAction.Nothing // The UI updates via the flow from DB
+                WatchListAction.Nothing
             }
         }
     }

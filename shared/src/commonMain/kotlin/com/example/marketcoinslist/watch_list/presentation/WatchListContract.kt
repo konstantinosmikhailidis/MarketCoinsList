@@ -5,8 +5,7 @@ import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
 
 data class WatchListState(
-    val coins: List<Coin> = emptyList(),
-    val isLoading: Boolean = false
+    val coins: List<Coin> = emptyList()
 )
 
 sealed interface WatchListAction {

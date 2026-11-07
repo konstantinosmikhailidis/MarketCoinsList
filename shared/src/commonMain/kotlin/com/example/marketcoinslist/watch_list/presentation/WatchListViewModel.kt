@@ -18,7 +18,7 @@ class WatchListViewModel(
     updater: WatchListUpdater,
     processor: WatchListProcessor
 ) : BaseViewModel<WatchListState, WatchListAction, WatchListSideEffect, WatchListEvent, WatchListState>(
-    initialState = WatchListState(isLoading = true),
+    initialState = WatchListState(),
     dispatchers = dispatchers,
     updater = updater,
     processor = processor,

@@ -52,13 +52,21 @@ import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
 import com.example.marketcoinslist.utils.EMPTY_VALUE
 import marketcoinslist.shared.generated.resources.Res
-import marketcoinslist.shared.generated.resources.char_back
-import marketcoinslist.shared.generated.resources.char_non_selected
-import marketcoinslist.shared.generated.resources.char_plus
-import marketcoinslist.shared.generated.resources.char_selected
 import marketcoinslist.shared.generated.resources.coin_details_title
+import marketcoinslist.shared.generated.resources.current_price
+import marketcoinslist.shared.generated.resources.in_watchlist
+import marketcoinslist.shared.generated.resources.market_cap_rank
+import marketcoinslist.shared.generated.resources.market_stats
 import marketcoinslist.shared.generated.resources.no_chart_data_available
+import marketcoinslist.shared.generated.resources.not_in_watchlist
+import marketcoinslist.shared.generated.resources.one_year
+import marketcoinslist.shared.generated.resources.price_chart
 import marketcoinslist.shared.generated.resources.retry
+import marketcoinslist.shared.generated.resources.seven_days
+import marketcoinslist.shared.generated.resources.thirty_days
+import marketcoinslist.shared.generated.resources.twenty_four_hours
+import marketcoinslist.shared.generated.resources.watchlist_status
+import marketcoinslist.shared.generated.resources.price_change_24h
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -94,7 +102,7 @@ fun CoinDetailsScreen(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Text(
-                            text = stringResource(Res.string.char_back),
+                            text = "←",
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold
                         )
@@ -111,9 +119,9 @@ fun CoinDetailsScreen(
                         }) {
                             Text(
                                 text = if (coin.isFavorite)
-                                    stringResource(Res.string.char_selected)
+                                    "★"
                                 else
-                                    stringResource(Res.string.char_non_selected),
+                                    "☆",
                                 color = if (coin.isFavorite)
                                     Color(0xFFFFC107)
                                 else
@@ -219,7 +227,7 @@ private fun CoinHeader(coin: Coin) {
         val isPositive = change >= 0
         val color = if (isPositive) Color(0xFF4CAF50) else Color(0xFFF44336)
         val backgroundColor = if (isPositive) Color(0xE8E8F5E9) else Color(0xFFFFEBEE)
-        val sign = if (isPositive) stringResource(Res.string.char_plus) else EMPTY_VALUE
+        val sign = if (isPositive) "+" else EMPTY_VALUE
 
         Surface(
             shape = RoundedCornerShape(8.dp),
@@ -248,7 +256,7 @@ private fun ChartSection(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Price Chart",
+                text = stringResource(Res.string.price_chart),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -259,7 +267,12 @@ private fun ChartSection(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                val timeframes = listOf("1" to "24H", "7" to "7D", "30" to "30D", "365" to "1Y")
+                val timeframes = listOf(
+                    "1" to stringResource(Res.string.twenty_four_hours),
+                    "7" to stringResource(Res.string.seven_days),
+                    "30" to stringResource(Res.string.thirty_days),
+                    "365" to stringResource(Res.string.one_year)
+                )
                 timeframes.forEach { (days, label) ->
                     FilterChip(
                         selected = selectedDays == days,
@@ -381,19 +394,31 @@ private fun CoinStatsSection(coin: Coin) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Market Stats",
+                text = stringResource(Res.string.market_stats),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            StatRow(label = "Market Cap Rank", value = coin.marketCapRank?.let { "#$it" } ?: "-")
-            StatRow(label = "Current Price", value = "$${coin.currentPrice}")
-            StatRow(label = "24h Price Change", value = "${coin.priceChangePercentage24h ?: 0.0}%")
             StatRow(
-                label = "Watchlist Status",
-                value = if (coin.isFavorite) "In Watchlist" else "Not in Watchlist"
+                label = stringResource(Res.string.market_cap_rank),
+                value = coin.marketCapRank?.let { "#$it" } ?: "-"
+            )
+            StatRow(
+                label = stringResource(Res.string.current_price),
+                value = "$${coin.currentPrice}"
+            )
+            StatRow(
+                label = stringResource(Res.string.price_change_24h),
+                value = "${coin.priceChangePercentage24h ?: 0.0}%"
+            )
+            StatRow(
+                label = stringResource(Res.string.watchlist_status),
+                value = if (coin.isFavorite)
+                    stringResource(Res.string.in_watchlist)
+                else
+                    stringResource(Res.string.not_in_watchlist)
             )
         }
     }
