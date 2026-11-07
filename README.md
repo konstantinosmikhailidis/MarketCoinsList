@@ -16,7 +16,7 @@ A modern, fully functional cryptocurrency tracking application built with **Kotl
 
 | Android (Material 3) | iOS (Native feel) | Coin Details & Chart |
 | :---: | :---: | :---: |
-| <img src="docs/android_list.png" width="250"/| <img src="docs/ios_list.png" width="250"/| <img src="docs/details_chart.png" width="250"/|
+| <img src="docs/android_list.png" width="250"/> | <img src="docs/ios_list.png" width="250"/> | <img src="docs/details_chart.png" width="250"/> |
 
 ---
 
