@@ -10,6 +10,13 @@ import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
 
+/**
+ * Remote API client for CoinGecko using Ktor.
+ * 
+ * Note: The free tier of CoinGecko API has strict rate limits.
+ * HTTP 429 (Too Many Requests) is handled gracefully via the [bodyOrThrow] extension,
+ * which extracts the specific error message provided by the API for better UX.
+ */
 class CoinGeckoApi(private val httpClient: HttpClient) {
 
     suspend fun getCoinsMarkets(

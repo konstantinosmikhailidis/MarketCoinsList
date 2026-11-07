@@ -15,6 +15,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.withContext
 
+/**
+ * Implementation of [CoinDetailsRepository] that acts as a Single Source of Truth (SSOT).
+ * 
+ * It combines data from the local SQLDelight database (favorites state, cached coin data)
+ * with remote data (Market Charts) fetched via Ktor.
+ */
 class CoinDetailsRepositoryImpl(
     private val api: CoinGeckoApi,
     private val db: MarketCoinsDatabase

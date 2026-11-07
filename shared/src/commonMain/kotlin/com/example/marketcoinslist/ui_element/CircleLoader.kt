@@ -24,6 +24,13 @@ import kotlinx.coroutines.delay
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
+/**
+ * A non-blocking, centered loading indicator.
+ * 
+ * Uses a [Popup] rather than a Dialog to ensure that it doesn't block user interactions
+ * (like scrolling or clicking back) while background data is being fetched. It also implements
+ * a minimum display time to prevent UI flickering on very fast network responses.
+ */
 @Composable
 fun CircleLoader(
     loadingInfo: LoadingInfo?,

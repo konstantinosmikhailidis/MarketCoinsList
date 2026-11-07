@@ -1,5 +1,13 @@
 package com.example.marketcoinslist.core.viewmodel
 
+/**
+ * A pure function component responsible for state reduction in the MVI architecture.
+ * 
+ * It takes the current State and an incoming [Action], and returns a [StateHolder] containing:
+ * - A newly computed State.
+ * - Optional [SideEffect]s to be executed by the Processor.
+ * - Optional one-off [Event]s to be consumed by the UI.
+ */
 interface StateUpdater<S : Any, in Action : Any, SideEffect : Any, Event : Any> {
     fun update(action: Action, currentState: S): StateHolder<S, SideEffect, Event>
 

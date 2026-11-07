@@ -28,6 +28,13 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import kotlinx.coroutines.delay
 
+/**
+ * A custom, non-blocking floating notification view (Snackbar alternative).
+ * 
+ * It is anchored to the bottom of the screen using [Popup] with `focusable = false`.
+ * This allows users to continue interacting with the underlying UI (e.g., scrolling the list)
+ * while the notification is visible. Supports auto-dismissal.
+ */
 @Composable
 fun NotificationView(
     isShowNotification: Boolean = true,

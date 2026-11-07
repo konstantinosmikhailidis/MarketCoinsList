@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 /**
- * Error info
+ * Model representing a UI notification (e.g., error, warning, or success message).
  *
- * Класс, необходимый для отображения ошибки или обычного оповещения
+ * This class encapsulates the data required to display a notification banner or snackbar.
  *
- * @property message текст ошибки или оповещения
- * @property isError определяет это ошибка или простое оповещение
- * @property isCloseTimer определяет закрывать-ли оповещение через время
+ * @property message The text message to be displayed.
+ * @property isError Indicates whether this is an error (true), a success message (false), or neutral (null).
+ * @property isCloseTimer Determines if the notification should auto-dismiss after a certain duration.
  */
 @Serializable
 data class NotificationInfo(

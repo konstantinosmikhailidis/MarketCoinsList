@@ -12,6 +12,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.EmptyCoroutineContext
 
+/**
+ * Base ViewModel implementing the MVI (Model-View-Intent) architectural pattern.
+ * 
+ * It orchestrates the unidirectional data flow (UDF):
+ * 1. UI sends an [Action] to the ViewModel via the [handle] method.
+ * 2. [StateUpdater] computes the new [State] and any required [SideEffect]s or [Event]s.
+ * 3. [Processor] executes asynchronous [SideEffect]s (e.g., network, DB) and returns a new [Action].
+ * 4. [Event]s are emitted for one-off UI actions (e.g., navigation, showing toasts).
+ */
 abstract class BaseViewModel<State : Any, Action : Any, SideEffect : Any, Event : Any, UIState>(
     initialState: State,
     private val dispatchers: DispatchersProvider,
