@@ -24,4 +24,8 @@
     <string name="watch_list_empty_state_message">Tap the star icon on any coin to add it here</string>
     <string name="failed_to_load_coins">Failed to load coins</string>
     <string name="failed_to_load_chart">Failed to load chart</string>
+    <string name="all">All</string>
+    <string name="top_fifty">Top 50</string>
+    <string name="gainers">Gainers</string>
+    <string name="losers">Losers</string>
 </resources>

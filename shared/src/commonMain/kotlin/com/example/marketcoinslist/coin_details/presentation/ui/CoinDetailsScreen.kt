@@ -50,7 +50,14 @@ import com.example.marketcoinslist.coin_details.presentation.CoinDetailsViewMode
 import com.example.marketcoinslist.coins.domain.model.Coin
 import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
+import com.example.marketcoinslist.theme.LossRed
+import com.example.marketcoinslist.theme.LossRedContainer
+import com.example.marketcoinslist.theme.ProfitGreen
+import com.example.marketcoinslist.theme.ProfitGreenContainer
+import com.example.marketcoinslist.theme.StarActive
 import com.example.marketcoinslist.utils.EMPTY_VALUE
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeSource
 import marketcoinslist.shared.generated.resources.Res
 import marketcoinslist.shared.generated.resources.coin_details_title
 import marketcoinslist.shared.generated.resources.current_price
@@ -74,6 +81,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun CoinDetailsScreen(
     coinId: String,
     viewModel: CoinDetailsViewModel = koinViewModel(),
+    hazeState: HazeState,
     onBackClick: () -> Unit = {},
     onShowNotification: (NotificationInfo) -> Unit,
     onShowLoadingAnimation: (LoadingInfo?) -> Unit,
@@ -123,7 +131,7 @@ fun CoinDetailsScreen(
                                 else
                                     "☆",
                                 color = if (coin.isFavorite)
-                                    Color(0xFFFFC107)
+                                    StarActive
                                 else
                                     MaterialTheme.colorScheme.onSurfaceVariant,
                                 style = MaterialTheme.typography.headlineSmall
@@ -137,14 +145,19 @@ fun CoinDetailsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .hazeSource(hazeState)
         ) {
             state.coin?.let { coin ->
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp)
                         .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp)
+                        .padding(
+                            top = paddingValues.calculateTopPadding(),
+                            start = 16.dp, 
+                            end = 16.dp
+                        )
                 ) {
                     CoinHeader(coin = coin)
 
@@ -225,8 +238,8 @@ private fun CoinHeader(coin: Coin) {
 
         val change = coin.priceChangePercentage24h ?: 0.0
         val isPositive = change >= 0
-        val color = if (isPositive) Color(0xFF4CAF50) else Color(0xFFF44336)
-        val backgroundColor = if (isPositive) Color(0xE8E8F5E9) else Color(0xFFFFEBEE)
+        val color = if (isPositive) ProfitGreen else LossRed
+        val backgroundColor = if (isPositive) ProfitGreenContainer else LossRedContainer
         val sign = if (isPositive) "+" else EMPTY_VALUE
 
         Surface(

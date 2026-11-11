@@ -44,6 +44,9 @@ class CoinsUpdater : StateUpdater<CoinsState, CoinsAction, CoinsSideEffect, Coin
                     effects = setOf(CoinsSideEffect.ToggleFavorite(action.id))
                 )
             }
+            is CoinsAction.SetFilter -> {
+                StateHolder(currentState.copy(filterType = action.filterType))
+            }
         }
     }
 }

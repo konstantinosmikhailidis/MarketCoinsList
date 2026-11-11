@@ -19,6 +19,9 @@ class WatchListUpdater : StateUpdater<WatchListState, WatchListAction, WatchList
                     effects = setOf(WatchListSideEffect.RemoveFavorite(action.id))
                 )
             }
+            is WatchListAction.SetFilter -> {
+                StateHolder(currentState.copy(filterType = action.filterType))
+            }
             is WatchListAction.Nothing -> {
                 StateHolder(currentState)
             }

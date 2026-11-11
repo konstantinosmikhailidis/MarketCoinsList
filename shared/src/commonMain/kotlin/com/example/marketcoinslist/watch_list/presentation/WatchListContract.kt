@@ -1,16 +1,19 @@
 package com.example.marketcoinslist.watch_list.presentation
 
 import com.example.marketcoinslist.coins.domain.model.Coin
+import com.example.marketcoinslist.coins.presentation.FilterType
 import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
 
 data class WatchListState(
-    val coins: List<Coin> = emptyList()
+    val coins: List<Coin> = emptyList(),
+    val filterType: FilterType = FilterType.ALL
 )
 
 sealed interface WatchListAction {
     data class WatchListUpdated(val coins: List<Coin>) : WatchListAction
     data class RemoveFavorite(val id: String) : WatchListAction
+    data class SetFilter(val filterType: FilterType) : WatchListAction
     data object Nothing : WatchListAction
 }
 
@@ -20,6 +23,5 @@ sealed interface WatchListSideEffect {
 
 sealed interface WatchListEvent {
     data class ShowNotification(val notificationInfo: NotificationInfo) : WatchListEvent
-
     data class ShowLoadingAnimation(val loadingInfo: LoadingInfo?): WatchListEvent
 }

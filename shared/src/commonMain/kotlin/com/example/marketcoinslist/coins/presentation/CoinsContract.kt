@@ -5,8 +5,13 @@ import com.example.marketcoinslist.core.notification.LoadingInfo
 import com.example.marketcoinslist.core.notification.NotificationInfo
 
 data class CoinsState(
-    val coins: List<Coin> = emptyList()
+    val coins: List<Coin> = emptyList(),
+    val filterType: FilterType = FilterType.ALL
 )
+
+enum class FilterType {
+    ALL, TOP_50, GAINERS, LOSERS
+}
 
 sealed interface CoinsAction {
     data class CoinsUpdated(val coins: List<Coin>) : CoinsAction
@@ -14,6 +19,7 @@ sealed interface CoinsAction {
     data object CoinsRefreshed : CoinsAction
     data class RefreshFailed(val notificationInfo: NotificationInfo) : CoinsAction
     data class ToggleFavorite(val id: String) : CoinsAction
+    data class SetFilter(val filterType: FilterType) : CoinsAction
 }
 
 sealed interface CoinsSideEffect {
@@ -23,6 +29,5 @@ sealed interface CoinsSideEffect {
 
 sealed interface CoinsEvent {
     data class ShowNotification(val notificationInfo: NotificationInfo) : CoinsEvent
-
     data class ShowLoadingAnimation(val loadingInfo: LoadingInfo?): CoinsEvent
 }

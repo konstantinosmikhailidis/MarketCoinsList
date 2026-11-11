@@ -78,6 +78,11 @@ kotlin {
             // Coil
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+
+            //Haze
+            implementation(libs.haze)
+            implementation(libs.haze.blur)
+            implementation(libs.haze.glass)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
